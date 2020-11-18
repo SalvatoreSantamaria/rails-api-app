@@ -7,3 +7,5 @@ class Api::V1::AnagramController < ApplicationController
     render json: @result
   end
 end
+
+# http://localhost:3000/api/v1/anagram/check
