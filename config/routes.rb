@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       get 'anagram/check'
       get 'url/shortener'
       post 'url/shortener'
+      get 'url/lengthener'
+      post 'url/lengthener'
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
