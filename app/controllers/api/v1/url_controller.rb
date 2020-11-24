@@ -4,46 +4,98 @@ class Api::V1::UrlController < ApplicationController
   #skip_before_action :verify_authenticity_token
   
   #need to 
-  # give ability to api to take in input. can currently hit route and get back json data.
-  # make new method to get original input back
-  # use database instead of obj
+  # add method(s) for time expiration
+  # append to the input param 
 
   #http://localhost:3000/api/v1/url/shortener/
   #http://localhost:3000/api/v1/url/shortener?url=https://test.com
+
+  #http://localhost:3000/api/v1/url/index
+  def index
+    urls = Url.order('created_at DESC')
+    render json: {status: 'SUCCESS', data: urls}, status: :ok
+  end
+
+
   def shortener
     # if params[:status] == "activated"
       # render json: params
     # end
 
-    if params[:url]
-      @count = 0
-      @dataBase = {"https://test.com":"http://shorturl100"}
-      #url = 'www.test.com'
-      url = params[:url]
-      back = url.split(".")[1]
-      front = "http://shorturl"
-      @count = @count + 1
-      count = @count
-      shortenedUrl = front.concat(count.to_s)
+    # old
+    # if params[:url]
+    #   @count = 0
+    #   @dataBase = {"https://test.com":"http://shorturl100"}
+    #   #url = 'www.test.com'
+    #   url = params[:url]
+    #   back = url.split(".")[1]
+    #   front = "http://shorturl"
+    #   @count = @count + 1
+    #   count = @count
+    #   shortenedUrl = front.concat(count.to_s)
+    #   @dataBase[url] = shortenedUrl
+    # # render json: 'Hello!'
+    # render json: @dataBase
+    # #render json: shortenedUrl
+    # end
 
-      @dataBase[url] = shortenedUrl
-
-
-    # render json: 'Hello!'
-    render json: @dataBase
-    #render json: shortenedUrl
+    shortened = Url.new(shorten_params)
+    if shortened.save 
+      render json: {status: 'SUCCESS', data: shortened}, status: :ok
+    else 
+      render json: {status: 'ERROR', data: shortened.errors}, status: :unprocessable_entity
     end
   end
 
   def lengthener
-    @dataBase = {"https://test.com":"http://shorturl100"} #fix @dataBase 
-    if params[:q]
-      query = params[:q]
-      url = @dataBase.key(query)
-      render json: url
-    end
+    # old
+    # @dataBase = {"https://test.com":"http://shorturl100"} #fix @dataBase 
+    # if params[:q]
+    #   query = params[:q]
+    #   url = @dataBase.key(query)
+    #   render json: url
+    # end
+
+    #new, hitting database
+    #url = Url.where(shortened: params[:shortened])
+    url = Url.where(lengthen_params)
+    render json: {status: 'SUCCESS', data: url}, status: :ok
+
   end
+
+  def expiration
+    #to add functionality
+  end
+  
+  def autoExperiation
+    #to add functionality
+  end
+
+  private
+
+  def shorten_params
+
+    # url = params[:address]
+    # back = url.split(".")[1]
+    # front = "http://shorturl"
+    # @count = @count + 1
+    # count = @count
+    # shortenedUrl = front.concat(count.to_s)
+    #shortened = Url.new(shortenedUrl)
+    
+    #should I process and append here?
+
+
+    params.permit(:address, :expiration, :autoExperiation)
+  end
+
+  def lengthen_params
+    params.permit(:shortened)
+  end
+
 end
+
+
 
 
   #   class UrlProcess
