@@ -1,4 +1,39 @@
-<h2>Hello World</h2>
+<h2>Hello and welcome to short.ly!</h2>
 <p>
-  The time is now: <%= Time.now %>
+  The time is now: <%= Time.now %>! This project transforms URL's and sets a 24 expiration on them.
+<p>
+  This application can be run from local with rails s. It uses a Postgresql Database. Check the database.yml file for the (standard) database name/username.
+  <br>
+  This application is a mock URL shortener in which URL's are added and a unique short.ly fake address is returned in the form of "short.ly/#{number}". The URL shortener can take in an optional expiration date, otherwise, the URL and fake address will "expire" in 24 hours.
 </p>
+<p>
+<ul>  
+    <li> # Routes </li>
+    <li> POST http://localhost:3000/api/v1/url/shortener </li>
+    <li> GET http://localhost:3000/api/v1/url/index </li>
+    <li> GET http://localhost:3000/api/v1/url/lengthener </li>
+</ul>
+<ul> 
+  <li># JSON format excepted: POST http://localhost:3000/api/v1/url/shortener </li>
+  <li>Expiration parameter is optional and does not need to be included. The expirational parameter will set a future date where the URL would expire. Otherwise, the autoexpiration parameter is set to autoexpire in 24 hours. </li>
+  <li>
+  {
+      "address":"www.test789.com",
+      "expiration": "2020-11-27" 
+    }
+  </li>
+</ul>
+<ul>
+  <li> # JSON format expected: GET http://localhost:3000/api/v1/url/lengthener  </li>
+  <li>Only the shortened URL is needed: </li>
+    
+    <li>
+    {
+        "shortened":"short.ly/18"
+    }
+  </li>
+</ul>
+<ul>
+  <li> # JSON format excepted: GET http://localhost:3000/api/v1/url/index   </li>
+  <li>  No params are needed here, the index will return all addresses and their data   </li>
+</ul>
