@@ -9,13 +9,15 @@ class Api::V1::UrlController < ApplicationController
 
   #http://localhost:3000/api/v1/url/shortener/
   #http://localhost:3000/api/v1/url/shortener?url=https://test.com
-
   #http://localhost:3000/api/v1/url/index
+
+
+  @@count = 0
+
   def index
     urls = Url.order('created_at DESC')
     render json: {status: 'SUCCESS', data: urls}, status: :ok
   end
-
 
   def shortener
     # if params[:status] == "activated"
@@ -39,11 +41,28 @@ class Api::V1::UrlController < ApplicationController
     # #render json: shortenedUrl
     # end
 
-    shortened = Url.new(shorten_params)
-    if shortened.save 
-      render json: {status: 'SUCCESS', data: shortened}, status: :ok
+    #old 11/25
+    #shortened = Url.new(shorten_params)
+
+    #old 11/25
+    # if shortened.save 
+    #   render json: {status: 'SUCCESS', data: shortened}, status: :ok
+    # else 
+    #   render json: {status: 'ERROR', data: shortened.errors}, status: :unprocessable_entity
+    # end
+
+    count = @@count
+    my_params = shorten_params
+    @url = Url.new
+    @url.attributes = my_params
+    @url.shortened = "short.ly/#{count.to_s}"
+    @url.save
+    @@count += 1
+
+    if @url.save 
+      render json: {status: 'SUCCESS', data: @url}, status: :ok
     else 
-      render json: {status: 'ERROR', data: shortened.errors}, status: :unprocessable_entity
+      render json: {status: 'ERROR', data: @url.errors}, status: :unprocessable_entity
     end
   end
 
