@@ -56,6 +56,7 @@ class Api::V1::UrlController < ApplicationController
     @url = Url.new
     @url.attributes = my_params
     @url.shortened = "short.ly/#{count.to_s}"
+    @url.autoexpiration = Time.new.advance(days: 1)
     @url.save
     @@count += 1
 
@@ -77,8 +78,15 @@ class Api::V1::UrlController < ApplicationController
 
     #new, hitting database
     #url = Url.where(shortened: params[:shortened])
+
     url = Url.where(lengthen_params)
-    render json: {status: 'SUCCESS', data: url}, status: :ok
+    if (url[0].autoexpiration.future?) || (url[0].expiration.future?)
+      render json: {status: 'EXPIRED', data: url}, status: :ok
+    else 
+      render json: {status: 'SUCCESS', data: url}, status: :ok
+    end
+    
+
 
   end
 
@@ -105,7 +113,7 @@ class Api::V1::UrlController < ApplicationController
     #should I process and append here?
 
 
-    params.permit(:address, :expiration, :autoExperiation)
+    params.permit(:address, :expiration)
   end
 
   def lengthen_params
