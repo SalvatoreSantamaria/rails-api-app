@@ -1,5 +1,4 @@
 class Api::V1::UrlController < ApplicationController
-
   wrap_parameters false
   @@count = 0
 
@@ -15,7 +14,6 @@ class Api::V1::UrlController < ApplicationController
     @url.attributes = my_params
     @url.shortened = "short.ly/#{count.to_s}"
     @url.autoexpiration = Time.new.advance(days: 1)
-    (@url.expiration = Time.new.advance(days: 1)) unless shorten_params[:expiration]
     @url.save
     @@count += 1
 
@@ -28,7 +26,7 @@ class Api::V1::UrlController < ApplicationController
 
   def lengthener
     url = Url.where(lengthen_params)
-    if (!url[0].autoexpiration.future?) || (!url[0].expiration.future?)
+    if (!url[0].autoexpiration.future?)
       render json: {status: 'EXPIRED', data: url}, status: :ok
     else 
       render json: {status: 'SUCCESS', data: url}, status: :ok
@@ -38,10 +36,12 @@ class Api::V1::UrlController < ApplicationController
   private
 
   def shorten_params
-    params.permit(:address, :expiration)
+    params.require(:address)
+    params.permit(:address)
   end
 
   def lengthen_params
+    params.require(:shortened)
     params.permit(:shortened)
   end
 

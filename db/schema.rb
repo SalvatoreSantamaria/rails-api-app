@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_24_155219) do
+ActiveRecord::Schema.define(version: 2020_11_26_155145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 2020_11_24_155219) do
   create_table "urls", force: :cascade do |t|
     t.text "address"
     t.text "shortened"
-    t.date "expiration"
     t.date "autoexpiration"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
