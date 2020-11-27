@@ -4,12 +4,12 @@
 <p>
 <ul>  
     <li> # Routes </li>
-    <li> POST http://localhost:3000/api/v1/url/shortener </li>
-    <li> GET http://localhost:3000/api/v1/url/index </li>
-    <li> GET http://localhost:3000/api/v1/url/lengthener </li>
+    <li> POST https://short-ly-app.herokuapp.com/api/v1/url/shortener </li>
+    <li> GET https://short-ly-app.herokuapp.com/api/v1/url/index </li>
+    <li> GET https://short-ly-app.herokuapp.com/api/v1/url/lengthener </li>
 </ul>
 <ul> 
-  <li># JSON format excepted: POST http://localhost:3000/api/v1/url/shortener </li>
+  <li># JSON format excepted: POST https://short-ly-app.herokuapp.com/api/v1/url/shortener </li>
   <li>This application is a mock URL shortener in which URL's are added and a unique short.ly fake address is returned in the form of "short.ly/#{number}". The URL and fake address will "expire" in 24 hours.</li>
   <li>
     {
@@ -18,7 +18,7 @@
   </li>
 </ul>
 <ul>
-  <li> # JSON format expected: GET http://localhost:3000/api/v1/url/lengthener  </li>
+  <li> # JSON format expected: GET https://short-ly-app.herokuapp.com/api/v1/url/lengthener  </li>
   <li>Only the shortened URL is needed: </li>
     
     <li>
@@ -28,7 +28,7 @@
   </li>
 </ul>
 <ul>
-  <li> # JSON format excepted: GET http://localhost:3000/api/v1/url/index   </li>
+  <li> # JSON format excepted: GET <a href="https://short-ly-app.herokuapp.com/api/v1/url/index">https://short-ly-app.herokuapp.com/api/v1/url/index</a></li>
   <li>  No params are needed here, the index will return all addresses and their data   </li>
 </ul>
 
