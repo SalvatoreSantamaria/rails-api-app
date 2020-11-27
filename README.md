@@ -11,7 +11,7 @@ This application is a mock URL shortener in which URL's are added and a unique s
 # JSON format excepted: POST http://localhost:3000/api/v1/url/shortener
   Autoexpiration parameter is set to 'autoexpire' in 24 hours.
   {
-    "address":"www.test789.com",
+    "address":"http://www.test789.com",
   }
 
 # JSON format expected: GET http://localhost:3000/api/v1/url/lengthener
